@@ -44,6 +44,7 @@ export const TransactionList:FC<IProps> = ({ expenses, onDelete, showActions }) 
                 <p className='font-medium truncate'>{expense.description}</p>
                 <Badge className={`mt-1 ${categoryColors[expense.category] || 'bg-gray-100 text-gray-800'}`}>
                   {expense.category}
+                  <p>-</p>
                 </Badge>
               </div>
               <span className='text-gray-400 text-xs'> {new Date(expense.date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })}</span>

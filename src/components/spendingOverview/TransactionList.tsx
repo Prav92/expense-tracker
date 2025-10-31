@@ -1,12 +1,11 @@
-import React, { type FC } from 'react'
+import  { type FC } from 'react'
 import type { Expense } from "../../App";
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
-import { Input } from '../ui/input';
-import { Trash2, Search, Filter } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 interface IProps {
   expenses: Expense[];
-  onDelete: (id: string) => void;
+  onDelete: (id: number) => void;
   showActions?: boolean;
 }
 
@@ -42,9 +41,9 @@ export const TransactionList:FC<IProps> = ({ expenses, onDelete, showActions }) 
             <div className='font-semibold flex flex-col text-left'>
               <div className='flex items-center gap-3 mb-1'>
                 <p className='font-medium truncate'>{expense.description}</p>
-                <Badge className={`mt-1 ${categoryColors[expense.category] || 'bg-gray-100 text-gray-800'}`}>
-                  {expense.category}
-                  <p>-</p>
+                <Badge className={`mt-1 ${categoryColors[expense.category ?? 'Other'] || 'bg-gray-100 text-gray-800'}`}>
+                  {expense.category ?? 'Other'}
+                 
                 </Badge>
               </div>
               <span className='text-gray-400 text-xs'> {new Date(expense.date).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })}</span>
@@ -62,10 +61,9 @@ export const TransactionList:FC<IProps> = ({ expenses, onDelete, showActions }) 
                   </Button>
                 )}
               </div>
-              
           </li>
         ))}
       </ul>
     </div>
-   )
+  );
  }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -20,24 +20,21 @@ import { Textarea } from "../ui/textarea";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import type { Expense } from "../../App";
 
+import { useCategoriesList } from "@/hooks/useCatagoriesList";
+
 interface AddExpenseFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (expense: Omit<Expense, "id">) => void;
 }
 
-const categories = [
-  "Food",
-  "Transportation",
-  "Entertainment",
-  "Utilities",
-  "Healthcare",
-  "Shopping",
-  "Travel",
-  "Education",
-  "Income",
-  "Other",
-];
+export interface Category {
+  id: string;
+  created_at: string;
+  name: string;
+}
+
+
 
 export function AddExpenseForm({
   open,
@@ -48,11 +45,20 @@ export function AddExpenseForm({
     amount: "",
     description: "",
     category: "",
+    category_id: null,
     date: new Date().toISOString().split("T")[0],
     type: "expense" as "expense" | "income",
   });
+  const [categories, setCategories] = useState<Category[]>([]);
+  const { data, isLoading } = useCategoriesList();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (data) {
+      setCategories(data)
+    }
+  }, [data])
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (
@@ -63,11 +69,19 @@ export function AddExpenseForm({
       return;
     }
 
+    const matchedCategory = categories.find(
+      (cat) => cat.name === formData.category
+    );
+    const categoryId = matchedCategory
+      ? parseInt(matchedCategory.id, 10)
+      : null;
+
     onSubmit({
       amount: parseFloat(formData.amount),
       description: formData.description,
-      category: formData.category,
+      category_id: categoryId,
       date: formData.date,
+      user_id: 1, // Assuming a static user_id for now
       type: formData.type,
     });
 
@@ -76,9 +90,11 @@ export function AddExpenseForm({
       amount: "",
       description: "",
       category: "",
+      category_id: null,
       date: new Date().toISOString().split("T")[0],
       type: "expense",
     });
+  
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -153,13 +169,13 @@ export function AddExpenseForm({
               <SelectTrigger className="bg-gray-50 border-1 border-gray-300 w-full">
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
-              <SelectContent>
+              {!isLoading && <SelectContent>
                 {categories.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category}
+                  <SelectItem key={category.id} value={category.name}>
+                    {category.name}
                   </SelectItem>
                 ))}
-              </SelectContent>
+              </SelectContent>}
             </Select>
           </div>
 

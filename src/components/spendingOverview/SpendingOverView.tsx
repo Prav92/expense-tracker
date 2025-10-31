@@ -1,4 +1,4 @@
-import React, { type FC } from "react";
+import  { type FC } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
@@ -25,7 +25,7 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042',
     if (existing) {
       existing.amount += expense.amount;
     } else {
-      acc.push({ category: expense.category, amount: expense.amount });
+      acc.push({ category: expense.category || "", amount: expense.amount });
     }
     return acc;
   }, [] as { category: string; amount: number }[]);

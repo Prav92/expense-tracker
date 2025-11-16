@@ -1,7 +1,7 @@
 import  { type FC } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import type { Expense } from "../../App";
 interface IProps {
   expenses: Expense[];
@@ -100,7 +100,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
                         `${category} ${((percent ?? 0) * 100).toFixed(0)}%`
                       }
                   >
-                    {finalCategoryData.map((entry, index) => (
+                    {finalCategoryData.map((_, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}

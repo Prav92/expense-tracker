@@ -1,4 +1,4 @@
-import React, { type FC } from 'react'
+import  { type FC } from 'react'
 import { Button } from '../ui/button'
 import { PlusCircle } from 'lucide-react';
 
@@ -24,5 +24,5 @@ export const Header:FC<IProps> = ({ setShowAddForm }) => {
         </Button>
       </div>
     </header>
-  )
-}
+  );
+};

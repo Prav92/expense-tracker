@@ -1,4 +1,4 @@
-import React, {type FC } from 'react'
+import {type FC } from 'react'
 import SpendingOverView from './SpendingOverView';
 import type { Expense } from "../../App";
 import { TransactionList } from './TransactionList';

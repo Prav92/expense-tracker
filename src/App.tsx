@@ -70,12 +70,22 @@ function App() {
     // run when remote expenses or categories change (or when form visibility toggles)
   }, [expensesData, categories, showAddForm]);
 
-  const deleteExpense = (id: number) => {
+  const deleteExpense = async (id: number) => {
     console.log(id, "id to delete");
-    setExpenses(expenses.filter((e) => e.id !== id));
-    console.log(expenses, "expenses after deletion");
-    // toast.success('Transaction deleted successfully');
+
+   const { error } = await supabase
+      .from("expenses")
+      .delete()
+      .eq("id", id);
+   if (error) {
+     console.error("Error deleting expense:", error);
+   } else {
+     setExpenses(expenses.filter((e) => e.id !== id));
+   }
+   console.log(expenses, "expenses after deletion");
+   // toast.success('Transaction deleted successfully');
   };
+
 
   return (
     <div className="min-h-screen">
